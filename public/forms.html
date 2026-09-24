@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Netlify Forms - CapAlu</title>
+</head>
+<body>
+  <!-- Formulaire de devis CapAlu pour détection statique au build Netlify -->
+  <form name="devis" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="devis" />
+    <input type="hidden" name="subject" value="Nouvelle demande de devis" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="tel" name="phone" />
+    <input type="text" name="address" />
+    <input type="text" name="postalCode" />
+    <textarea name="message"></textarea>
+  </form>
+</body>
+</html>

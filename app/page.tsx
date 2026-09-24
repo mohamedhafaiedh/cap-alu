@@ -3,30 +3,34 @@ import React, { useEffect } from 'react';
 
 export default function Home() {
   useEffect(() => {
-    const form = document.querySelector('form.elementor-form');
+    const form = document.querySelector('form[name="devis"]') || document.querySelector('form.netlify-modern-form') || document.querySelector('form');
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(form as HTMLFormElement);
-        const data = Object.fromEntries(formData);
+        
+        const params = new URLSearchParams();
+        formData.forEach((value, key) => {
+          params.append(key, value.toString());
+        });
         
         const submitBtn = form.querySelector('button[type="submit"]');
         if (submitBtn) submitBtn.textContent = "Envoi en cours...";
         
         try {
-          const res = await fetch('/api/contact', {
+          const res = await fetch('/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
           });
           if (res.ok) {
             alert("Merci ! Votre demande de devis a bien été envoyée. Un expert CapAlu vous recontactera sous 1h.");
             (form as HTMLFormElement).reset();
           } else {
-            alert("Erreur lors de l'envoi. Veuillez réessayer.");
+            alert("Erreur lors de l'envoi. Veuillez réessayer ou nous contacter par téléphone.");
           }
         } catch {
-          alert("Erreur réseau. Veuillez réessayer.");
+          alert("Erreur réseau. Veuillez réessayer ou nous contacter par téléphone.");
         } finally {
           if (submitBtn) submitBtn.textContent = "J'obtiens mon devis GRATUIT";
         }
@@ -585,67 +589,88 @@ export default function Home() {
 <div class="elementor-element elementor-element-37bdb9bd elementor-view-framed elementor-position-inline-start elementor-tablet-position-inline-start elementor-mobile-position-inline-start elementor-shape-circle elementor-widget elementor-widget-icon-box" data-e-type="widget" data-element_type="widget" data-id="37bdb9bd" data-widget_type="icon-box.default">
 <div class="elementor-icon-box-wrapper">
 <div class="elementor-icon-box-icon">
-<a aria-label="contact@capalu.fr" class="elementor-icon" href="mailto:contact@capalu.fr" tabindex="-1">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-envelope-open-text" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z"></path></svg> </a>
+<a aria-label="WhatsApp CapAlu" class="elementor-icon" href="https://wa.me/33745046175" target="_blank" rel="noopener noreferrer" tabindex="-1">
+<svg aria-hidden="true" class="e-font-icon-svg e-fab-whatsapp" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> </a>
 </div>
 <div class="elementor-icon-box-content">
 <div class="elementor-icon-box-title">
-<a href="mailto:contact@capalu.fr">
-							contact@capalu.fr						</a>
+<a href="https://wa.me/33745046175" target="_blank" rel="noopener noreferrer">
+							WhatsApp : +33 7 45 04 61 75						</a>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="elementor-element elementor-element-593238b8 e-con-full e-flex e-con e-child" data-e-type="container" data-element_type="container" data-id="593238b8" data-settings='{"background_background":"classic"}'>
-<div class="elementor-element elementor-element-37487750 elementor-widget elementor-widget-text-editor" data-e-type="widget" data-element_type="widget" data-id="37487750" data-widget_type="text-editor.default">
-<p>Remplissez le formulaire ci-dessous et un expert vous contactera dans un délai d’une heure.</p> </div>
-<div class="elementor-element elementor-element-74963f0 elementor-button-align-stretch elementor-widget elementor-widget-form" data-e-type="widget" data-element_type="widget" data-id="74963f0" data-settings='{"step_next_label":"Next","step_previous_label":"Previous","button_width":"100","step_type":"number_text","step_icon_shape":"circle"}' data-widget_type="form.default">
-<form aria-label="Formulaire Travaux" class="elementor-form" method="post" name="Formulaire Travaux">
-<input name="post_id" type="hidden" value="135"/>
-<input name="form_id" type="hidden" value="74963f0"/>
-<input name="referer_title" type="hidden" value=""/>
-<input name="queried_id" type="hidden" value="135"/>
-<div class="elementor-form-fields-wrapper elementor-labels-">
-<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-lname elementor-col-100 elementor-field-required">
-<label class="elementor-field-label elementor-screen-only" for="form-field-lname">
-								Nom							</label>
-<input class="elementor-field elementor-size-lg elementor-field-textual" id="form-field-lname" name="form_fields[lname]" placeholder="Votre nom*" required="required" size="1" type="text"/>
+<div class="elementor-element elementor-element-593238b8 e-con-full e-flex e-con e-child netlify-form-column-card" data-e-type="container" data-element_type="container" data-id="593238b8" data-settings='{"background_background":"classic"}'>
+<div class="elementor-element elementor-element-37487750 elementor-widget elementor-widget-text-editor netlify-form-header" data-e-type="widget" data-element_type="widget" data-id="37487750" data-widget_type="text-editor.default">
+<h3 class="netlify-form-title">Demande de devis gratuit</h3>
+<p class="netlify-form-subtitle">Remplissez le formulaire ci-dessous et un expert vous contactera dans un délai d’une heure.</p> </div>
+<div class="elementor-element elementor-element-74963f0 elementor-button-align-stretch elementor-widget elementor-widget-form" data-e-type="widget" data-element_type="widget" data-id="74963f0" data-widget_type="form.default">
+<form aria-label="Demande de devis" class="netlify-modern-form elementor-form" method="post" name="devis" data-netlify="true" data-netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="devis"/>
+<input name="subject" type="hidden" value="Nouvelle demande de devis"/>
+<p style="display:none"><label>Ne pas remplir : <input name="bot-field"/></label></p>
+
+<!-- Nom complet avec Floating Label -->
+<div class="netlify-floating-group">
+  <div class="netlify-input-icon">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  </div>
+  <input class="netlify-floating-input" id="field-name" name="name" type="text" placeholder="Ex : Martin Dupont" required />
+  <label class="netlify-floating-label" for="field-name">Votre nom complet*</label>
 </div>
-<div class="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-50 elementor-field-required">
-<label class="elementor-field-label elementor-screen-only" for="form-field-email">
-								Email							</label>
-<input class="elementor-field elementor-size-lg elementor-field-textual" id="form-field-email" name="form_fields[email]" placeholder="Votre email*" required="required" size="1" type="email"/>
+
+<!-- Email et Téléphone (Grille 2 colonnes) -->
+<div class="netlify-grid-2">
+  <div class="netlify-floating-group">
+    <div class="netlify-input-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    </div>
+    <input class="netlify-floating-input" id="field-email" name="email" type="email" placeholder="Ex : contact@exemple.fr" required />
+    <label class="netlify-floating-label" for="field-email">Votre email*</label>
+  </div>
+  <div class="netlify-floating-group">
+    <div class="netlify-input-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </div>
+    <input class="netlify-floating-input" id="field-phone" name="phone" type="tel" pattern="[0-9()#&amp;+*-=.]+" placeholder="Ex : 06 12 34 56 78" required title="Seuls les caractères de numéros de téléphone sont acceptés." />
+    <label class="netlify-floating-label" for="field-phone">Votre téléphone*</label>
+  </div>
 </div>
-<div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-field_b57c008 elementor-col-50 elementor-field-required">
-<label class="elementor-field-label elementor-screen-only" for="form-field-field_b57c008">
-								Téléphone							</label>
-<input class="elementor-field elementor-size-lg elementor-field-textual" id="form-field-field_b57c008" name="form_fields[field_b57c008]" pattern="[0-9()#&amp;+*-=.]+" placeholder="Votre téléphone*" required="required" size="1" title="Seuls les caractères de numéros de téléphone (#, -, *, etc.) sont acceptés." type="tel"/>
+
+<!-- Adresse et Code postal (Grille 2 colonnes) -->
+<div class="netlify-grid-2">
+  <div class="netlify-floating-group">
+    <div class="netlify-input-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+    </div>
+    <input class="netlify-floating-input" id="field-address" name="address" type="text" placeholder="Ex : 12 Avenue des Champs-Élysées" required />
+    <label class="netlify-floating-label" for="field-address">Votre adresse*</label>
+  </div>
+  <div class="netlify-floating-group">
+    <div class="netlify-input-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>
+    </div>
+    <input class="netlify-floating-input" id="field-postal" name="postalCode" type="text" placeholder="Ex : 75008" required />
+    <label class="netlify-floating-label" for="field-postal">Votre code postal*</label>
+  </div>
 </div>
-<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_f70ee0f elementor-col-50 elementor-field-required">
-<label class="elementor-field-label elementor-screen-only" for="form-field-field_f70ee0f">
-								Adresse							</label>
-<input class="elementor-field elementor-size-lg elementor-field-textual" id="form-field-field_f70ee0f" name="form_fields[field_f70ee0f]" placeholder="Votre adresse*" required="required" size="1" type="text"/>
+
+<!-- Message avec Floating Label -->
+<div class="netlify-floating-group" style="margin-bottom: 1.5rem;">
+  <div class="netlify-input-icon textarea-icon">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </div>
+  <textarea class="netlify-floating-input netlify-floating-textarea" id="field-message" name="message" placeholder="Ex : Remplacement d'un double vitrage cassé..." rows="3"></textarea>
+  <label class="netlify-floating-label textarea-label" for="field-message">Décrivez votre besoin (travaux, dimensions, urgence...)</label>
 </div>
-<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_210c2e6 elementor-col-50 elementor-field-required">
-<label class="elementor-field-label elementor-screen-only" for="form-field-field_210c2e6">
-								Code postal							</label>
-<input class="elementor-field elementor-size-lg elementor-field-textual" id="form-field-field_210c2e6" name="form_fields[field_210c2e6]" placeholder="Votre code postal*" required="required" size="1" type="text"/>
-</div>
-<div class="elementor-field-type-textarea elementor-field-group elementor-column elementor-field-group-message elementor-col-100">
-<label class="elementor-field-label elementor-screen-only" for="form-field-message">
-								Message							</label>
-<textarea class="elementor-field-textual elementor-field elementor-size-lg" id="form-field-message" name="form_fields[message]" placeholder="Décrire votre besoin" rows="3"></textarea> </div>
-<div class="elementor-field-type-recaptcha_v3 elementor-field-group elementor-column elementor-field-group-field_5b451d2 elementor-col-100 recaptcha_v3-bottomright">
-<div class="elementor-field" id="form-field-field_5b451d2"><div class="elementor-g-recaptcha" data-action="Form" data-badge="bottomright" data-sitekey="6LfYYU4qAAAAABSsQ1BS5_cJb--Ike_Z-D6TuTvz" data-size="invisible" data-type="v3"></div></div> </div>
-<div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-<button class="elementor-button elementor-size-sm" type="submit">
-<span class="elementor-button-content-wrapper">
-<span class="elementor-button-text">J'obtiens mon devis GRATUIT</span>
-</span>
+
+<!-- Bouton de soumission fidèle au style du site CapAlu (sans flèche ni transition artificielle) -->
+<button class="elementor-button elementor-size-sm netlify-site-submit-btn" type="submit">
+  <span class="elementor-button-content-wrapper">
+    <span class="elementor-button-text">J'obtiens mon devis GRATUIT</span>
+  </span>
 </button>
-</div>
-</div>
 </form>
 </div>
 </div>
