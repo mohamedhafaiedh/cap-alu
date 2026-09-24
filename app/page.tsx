@@ -18,7 +18,7 @@ export default function Home() {
         if (submitBtn) submitBtn.textContent = "Envoi en cours...";
         
         try {
-          const res = await fetch('/', {
+          const res = await fetch('/form.html', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: params.toString()
@@ -606,7 +606,7 @@ export default function Home() {
 <h3 class="netlify-form-title">Demande de devis gratuit</h3>
 <p class="netlify-form-subtitle">Remplissez le formulaire ci-dessous et un expert vous contactera dans un délai d’une heure.</p> </div>
 <div class="elementor-element elementor-element-74963f0 elementor-button-align-stretch elementor-widget elementor-widget-form" data-e-type="widget" data-element_type="widget" data-id="74963f0" data-widget_type="form.default">
-<form aria-label="Demande de devis" class="netlify-modern-form elementor-form" method="post" name="devis" data-netlify="true" data-netlify-honeypot="bot-field">
+<form action="/form.html" aria-label="Demande de devis" class="netlify-modern-form elementor-form" method="post" name="devis" data-netlify="true" data-netlify-honeypot="bot-field">
 <input name="form-name" type="hidden" value="devis"/>
 <input name="subject" type="hidden" value="Nouvelle demande de devis"/>
 <p style="display:none"><label>Ne pas remplir : <input name="bot-field"/></label></p>
