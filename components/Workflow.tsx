@@ -1,69 +1,50 @@
-import React from 'react';
-import Image from 'next/image';
+import { CallButton, Icon, type IconName, SectionTitle } from './ui';
+
+const STEPS: { title: string; text: string; icon: IconName }[] = [
+  { title: 'Contact', text: 'Téléphone, e-mail ou formulaire de contact', icon: 'chat' },
+  {
+    title: 'Estimation GRATUITE',
+    text: 'Une fois contacté, notre expert vous établira une première estimation selon votre situation',
+    icon: 'euro'
+  },
+  {
+    title: 'Visite chantier et devis définitif',
+    text: "Après visite du lieu d'intervention, notre équipe pourra alors vous établir un devis complet sans frais cachés",
+    icon: 'clipboard'
+  },
+  {
+    title: 'Validation du devis et intervention',
+    text: 'Une fois que vous avez validé le devis, nos experts font le nécessaire pour une intervention efficace et 100% sécurisée',
+    icon: 'wrench'
+  }
+];
 
 export default function Workflow() {
-  const steps = [
-    {
-      num: "1",
-      title: "Contact",
-      desc: "Téléphone, e-mail ou formulaire de devis en ligne.",
-      icon: "/images/contact.png"
-    },
-    {
-      num: "2",
-      title: "Estimation GRATUITE",
-      desc: "Notre expert vous fournit une première estimation adaptée à votre besoin.",
-      icon: "/images/euro.png"
-    },
-    {
-      num: "3",
-      title: "Visite chantier & Devis",
-      desc: "Visite technique sur place et devis définitif sans aucun frais caché.",
-      icon: "/images/validation.png"
-    },
-    {
-      num: "4",
-      title: "Réalisation des travaux",
-      desc: "Intervention soignée et rapide par notre équipe de professionnels.",
-      icon: "/images/intervention.png"
-    }
-  ];
-
   return (
-    <section className="py-16 bg-blue-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            Déroulement de notre prestation
-          </h2>
-        </div>
+    <section id="deroulement" className="bg-ink py-20 text-white md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionTitle tone="dark">Déroulement de notre prestation</SectionTitle>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, idx) => (
-            <div
-              key={idx}
-              className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center space-y-4 hover:shadow-md transition-shadow"
-            >
-              <div className="relative w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center p-3">
-                <Image
-                  src={step.icon}
-                  alt={step.title}
-                  width={48}
-                  height={48}
-                  className="w-auto h-auto object-contain"
-                />
-              </div>
-              <h3 className="font-bold text-gray-900 text-lg">
-                {step.num}. {step.title}
+        <div className="relative mt-16">
+        <div aria-hidden="true" className="absolute top-7 right-[12.5%] left-[12.5%] hidden h-px bg-white/20 lg:block" />
+        <ol data-reveal-stagger className="relative grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          {STEPS.map((step, i) => (
+            <li key={step.title} data-reveal className="relative flex flex-col items-center text-center">
+              <span className="relative flex h-14 w-14 items-center justify-center rounded-md bg-brand-soft text-brand ring-8 ring-ink">
+                <Icon name={step.icon} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-6 text-lg font-extrabold">
+                {i + 1}. {step.title}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {step.desc}
-              </p>
-            </div>
+              <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-white/70">{step.text}</p>
+            </li>
           ))}
+        </ol>
         </div>
 
+        <div data-reveal className="mt-16 flex justify-center">
+          <CallButton className="shadow-none" />
+        </div>
       </div>
     </section>
   );

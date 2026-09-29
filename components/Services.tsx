@@ -1,75 +1,65 @@
-import React from 'react';
-import Image from 'next/image';
+import { CallButton, FramedImage, SectionTitle } from './ui';
+
+const SERVICES = [
+  {
+    title: 'Vitrerie & Miroiterie',
+    image: '/images/1.jpg',
+    alt: 'Façade vitrée d’immeuble, travaux de vitrerie',
+    text: 'Nous concevons, fabriquons et installons des solutions en verre sur mesure pour apporter lumière, sécurité et élégance à vos espaces. De la pose de doubles vitrages performants aux parois de douche, garde-corps, crédences et miroirs décoratifs, nous intervenons avec précision et finitions haut de gamme. Conseils techniques, choix des traitements et teintes, prises de cotes millimétrées, intervention rapide en dépannage et remplacement de casse. Notre priorité : allier esthétique, confort thermique et acoustique, tout en respectant vos délais et votre budget.'
+  },
+  {
+    title: 'Menuiserie Aluminium PVC - Métal - Bois',
+    image: '/images/3.jpg',
+    alt: 'Fenêtres à petits bois en menuiserie bois',
+    text: 'Nous réalisons des menuiseries durables et performantes, adaptées à votre style et aux contraintes du site. Fenêtres, portes, baies coulissantes, verrières, portails et clôtures : chaque matériau est choisi pour ses atouts. Aluminium pour la finesse et la longévité, PVC pour l’isolation et l’entretien, bois pour la chaleur et l’authenticité, acier pour la robustesse et le design. Étanchéité, sécurité, quincailleries fiables, motorisations et normes en vigueur : nous garantissons des ouvrages sur mesure, esthétiques et faciles à vivre.'
+  },
+  {
+    title: 'Vitrines et Façades Commerciales',
+    image: '/images/4.jpg',
+    alt: 'Devanture de boutique parisienne avec vitrine',
+    text: 'Nous accompagnons marques et commerces pour créer des vitrines qui attirent le regard et des façades qui renforcent l’identité. Études techniques, respect des contraintes ERP, sécurité renforcée, contrôle solaire, intégration d’enseignes, éclairages et portes automatiques. Verres feuilletés, anti-effraction, sérigraphies et films vous offrent visibilité, protection et confort. Fabrication sur mesure, montage soigné, coordination de chantier et interventions rapides en maintenance. Objectif : optimiser l’expérience client, la performance énergétique et l’image de votre point de vente.'
+  }
+];
 
 export default function Services() {
-  const services = [
-    {
-      title: "Vitrerie & Miroiterie",
-      description: "Installation et remplacement sur mesure de vitrages, double et triple vitrage, verre feuilleté et miroiterie d'art.",
-      image: "/images/1.jpg"
-    },
-    {
-      title: "Menuiserie Aluminium, PVC, Métal & Bois",
-      description: "Conception et pose de fenêtres, portes, baies coulissantes, verrières et portails sur mesure garantissant sécurité et isolation.",
-      image: "/images/3.jpg"
-    },
-    {
-      title: "Vitrines & Façades Commerciales",
-      description: "Aménagement sur mesure de devantures de magasins, verres anti-effraction, contrôle solaire et portes automatiques pour commerces.",
-      image: "/images/4.jpg"
-    }
-  ];
-
   return (
-    <section id="services" className="py-16 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sm uppercase tracking-wider font-extrabold text-[#3567AF] mb-2">Nos Prestations</h2>
-          <p className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-            Des services de menuiserie et vitrerie sur mesure
-          </p>
+    <section id="services" className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionTitle>Nos services</SectionTitle>
+
+        <div className="mt-16 space-y-20 md:mt-20 md:space-y-28">
+          {SERVICES.map((service, i) => {
+            const reversed = i % 2 === 1;
+            return (
+              <article key={service.title} className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+                <div data-reveal className={`mx-auto w-full max-w-[460px] px-5 lg:col-span-5 ${reversed ? 'lg:order-2' : ''}`}>
+                  <FramedImage
+                    src={service.image}
+                    alt={service.alt}
+                    width={426}
+                    height={339}
+                    sizes="(max-width: 1024px) 90vw, 440px"
+                    flip={reversed}
+                  />
+                </div>
+                <div
+                  data-reveal
+                  style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
+                  className={`lg:col-span-7 ${reversed ? 'lg:order-1' : ''}`}
+                >
+                  <span className="text-sm font-extrabold tracking-[0.25em] text-brand">0{i + 1}</span>
+                  <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">{service.title}</h3>
+                  <div className="mt-5 h-0.5 w-12 bg-ink" />
+                  <p className="mt-6 text-base leading-relaxed text-steel sm:text-[17px]">{service.text}</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col group"
-            >
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#3567AF] transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-                <div className="pt-6">
-                  <a
-                    href="tel:+33745046175"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#3567AF] hover:text-[#2a528c]"
-                  >
-                    Demander un conseil
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div data-reveal className="mt-20 flex justify-center">
+          <CallButton />
         </div>
-
       </div>
     </section>
   );

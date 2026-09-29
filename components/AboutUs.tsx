@@ -1,66 +1,56 @@
-import React from 'react';
-import Image from 'next/image';
+import { CallButton, FramedImage, SectionTitle } from './ui';
+
+const STATS = [
+  { value: '+1000', label: 'projets et interventions réalisés' },
+  { value: '+900', label: 'clients satisfaits' }
+];
 
 export default function AboutUs() {
   return (
-    <section className="py-16 md:py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-sm rounded-3xl overflow-hidden shadow-xl border-4 border-white">
-              <Image
-                src="/images/CAP-Vertical.jpg"
-                alt="CapAlu Réalisations Sur Mesure"
-                width={400}
-                height={600}
-                className="w-full h-auto object-cover"
-              />
-            </div>
+    <section id="a-propos" className="bg-mist py-20 md:py-28">
+      <div className="mx-auto grid max-w-7xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+        <div data-reveal className="mx-auto w-full max-w-[380px] px-5 lg:col-span-5">
+          <FramedImage
+            src="/images/CAP-Vertical.jpg"
+            alt="Chantier CapAlu en façade d'immeuble à Paris, vue sur la tour Eiffel"
+            width={800}
+            height={1200}
+            sizes="(max-width: 1024px) 80vw, 380px"
+          />
+        </div>
+
+        <div className="lg:col-span-7">
+          <SectionTitle align="left">CapAlu, votre choix de confiance</SectionTitle>
+
+          <div data-reveal className="mt-6 space-y-4 text-base leading-relaxed text-steel sm:text-[17px]">
+            <p>CapAlu est une entreprise spécialisée dans les travaux de vitrerie et de menuiserie en Île-de-France.</p>
+            <p>
+              Experts en fabrication et installation, nous réalisons avec précision et rapidité vos projets de fenêtres,
+              portes, façades vitrées, vérandas et aménagements sur mesure. Notre équipe qualifiée maîtrise parfaitement
+              les techniques modernes de vitrerie et de menuiserie (aluminium – PVC – métallique – bois), garantissant des
+              réalisations esthétiques, solides et durables.
+            </p>
+            <p className="font-semibold text-ink-soft">
+              Notre objectif : vous offrir des solutions élégantes, fiables et adaptées à vos besoins, tout en assurant
+              confort, sécurité et isolation optimale.
+            </p>
           </div>
 
-          <div className="lg:col-span-7 space-y-6">
-            <span className="text-sm font-extrabold uppercase tracking-wider text-[#3567AF]">À Propos</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-              CapAlu, votre choix de confiance
-            </h2>
+          <dl data-reveal-stagger className="mt-10 grid grid-cols-2 gap-4">
+            {STATS.map((stat) => (
+              <div key={stat.label} data-reveal className="border-l-4 border-brand bg-white px-5 py-5">
+                <dt className="sr-only">{stat.label}</dt>
+                <dd>
+                  <span className="block text-4xl font-extrabold tracking-tight text-ink">{stat.value}</span>
+                  <span className="mt-1 block text-sm font-semibold text-steel">{stat.label}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
 
-            <p className="text-gray-700 leading-relaxed">
-              CapAlu est une entreprise spécialisée dans les travaux de vitrerie et de menuiserie en Île-de-France.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              Experts en fabrication et installation, nous réalisons avec précision et rapidité vos projets de fenêtres, portes, façades vitrées, vérandas et aménagements sur mesure. Notre équipe qualifiée maîtrise parfaitement les techniques modernes de vitrerie et de menuiserie (aluminium – PVC – métallique – bois), garantissant des réalisations esthétiques, solides et durables.
-            </p>
-            <p className="text-gray-700 leading-relaxed font-medium">
-              Notre objectif : vous offrir des solutions élégantes, fiables et adaptées à vos besoins, tout en assurant confort, sécurité et isolation optimale.
-            </p>
-
-            <ul className="space-y-3 pt-2">
-              <li className="flex items-center gap-3 font-semibold text-gray-900">
-                <span className="w-6 h-6 rounded-full bg-blue-100 text-[#3567AF] flex items-center justify-center flex-shrink-0">
-                  ✓
-                </span>
-                +1000 projets et interventions réalisés
-              </li>
-              <li className="flex items-center gap-3 font-semibold text-gray-900">
-                <span className="w-6 h-6 rounded-full bg-blue-100 text-[#3567AF] flex items-center justify-center flex-shrink-0">
-                  ✓
-                </span>
-                +900 clients satisfaits en Île-de-France
-              </li>
-            </ul>
-
-            <div className="pt-4">
-              <a
-                href="tel:+33745046175"
-                className="inline-flex items-center justify-center bg-[#3567AF] hover:bg-[#2a528c] text-white font-bold px-6 py-3.5 rounded-xl shadow-md transition-all text-sm"
-              >
-                J'appelle le +33 7 45 04 61 75
-              </a>
-            </div>
-
+          <div data-reveal className="mt-10">
+            <CallButton />
           </div>
-
         </div>
       </div>
     </section>
