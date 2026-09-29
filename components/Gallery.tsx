@@ -21,7 +21,10 @@ const PHOTOS = [
   'Baie vitrée aluminium donnant sur jardin',
   'Façade vitrée intérieure de showroom',
   'Porte-fenêtre double vantail sur cour'
-].map((alt, i) => ({ src: `/images/cap-realisations-${i + 1}.jpg`, alt }));
+]
+  .map((alt, i) => ({ n: i + 1, src: `/images/cap-realisations-${i + 1}.jpg`, alt }))
+  // Déjà affichées ailleurs sur la page : n° 7 (service Vitrerie & Miroiterie), n° 14 (hero)
+  .filter((photo) => ![7, 14].includes(photo.n));
 
 export default function Gallery() {
   const dialogRef = useRef<HTMLDialogElement>(null);

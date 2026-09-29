@@ -3,8 +3,10 @@ import { CallButton, FramedImage, SectionTitle } from './ui';
 const SERVICES = [
   {
     title: 'Vitrerie & Miroiterie',
-    image: '/images/1.jpg',
-    alt: 'Façade vitrée d’immeuble, travaux de vitrerie',
+    image: '/images/cap-realisations-7.jpg',
+    alt: 'Verrière de toiture en pente posée par CapAlu',
+    // Photo en portrait : recadrée au format des deux autres, en gardant faîtage et vitrage
+    crop: { ratio: '426 / 339', position: '50% 90%' },
     text: 'Nous concevons, fabriquons et installons des solutions en verre sur mesure pour apporter lumière, sécurité et élégance à vos espaces. De la pose de doubles vitrages performants aux parois de douche, garde-corps, crédences et miroirs décoratifs, nous intervenons avec précision et finitions haut de gamme. Conseils techniques, choix des traitements et teintes, prises de cotes millimétrées, intervention rapide en dépannage et remplacement de casse. Notre priorité : allier esthétique, confort thermique et acoustique, tout en respectant vos délais et votre budget.'
   },
   {
@@ -40,6 +42,7 @@ export default function Services() {
                     height={339}
                     sizes="(max-width: 1024px) 90vw, 440px"
                     flip={reversed}
+                    crop={'crop' in service ? service.crop : undefined}
                   />
                 </div>
                 <div

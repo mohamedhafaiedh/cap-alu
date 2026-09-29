@@ -124,6 +124,7 @@ export function FramedImage({
   sizes,
   flip = false,
   preload = false,
+  crop,
   className = ''
 }: {
   src: string;
@@ -133,6 +134,8 @@ export function FramedImage({
   sizes: string;
   flip?: boolean;
   preload?: boolean;
+  /* Recadrage optionnel : format imposé + zone gardée (ex. { ratio: '426 / 339', position: '50% 90%' }) */
+  crop?: { ratio: string; position: string };
   className?: string;
 }) {
   return (
@@ -146,16 +149,28 @@ export function FramedImage({
         className={`absolute -top-4 h-full w-full border-2 border-ink sm:-top-5 ${flip ? '-left-4 sm:-left-5' : '-right-4 sm:-right-5'}`}
       />
       {/* Cadre interne : coupe le zoom lent au survol sans rogner les décorations */}
-      <div className="m-zoom relative">
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          sizes={sizes}
-          preload={preload}
-          className="block h-auto w-full"
-        />
+      <div className="m-zoom relative" style={crop ? { aspectRatio: crop.ratio } : undefined}>
+        {crop ? (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes={sizes}
+            preload={preload}
+            className="object-cover"
+            style={{ objectPosition: crop.position }}
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            sizes={sizes}
+            preload={preload}
+            className="block h-auto w-full"
+          />
+        )}
       </div>
     </div>
   );
